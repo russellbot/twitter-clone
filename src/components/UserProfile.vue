@@ -10,16 +10,23 @@
       </div>
     </div>
     <div class="user-profile__tweets-wrapper">
-        <div class="user-profile__tweet" v-for="tweet in user.tweets" :key="tweet.id">
-            {{ tweet.content }}
-        </div>
+      <TweetItem
+        v-for="tweet in user.tweets"
+        :key="tweet.id"
+        :username="user.username"
+        :tweet="tweet"
+        @favorite="toggleFavorite"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import TweetItem from "./TweetItem.vue";
+
 export default {
-  name: "App",
+  name: "UserProfile",
+  components: { TweetItem },
   data() {
     return {
       followers: 0,
@@ -30,9 +37,9 @@ export default {
         email: "russell@gmail.com",
         isAdmin: true,
         tweets: [
-            { id: 1, content: 'Twitter is amazing!' },
-            { id: 2, content: "don't forget to subscribe to Russell.tv" }
-        ]
+          { id: 1, content: "Twitter is amazing!" },
+          { id: 2, content: "don't forget to subscribe to Russell.tv" },
+        ],
       },
     };
   },
@@ -51,6 +58,9 @@ export default {
   methods: {
     followUser() {
       this.followers++;
+    },
+    toggleFavorite(id) {
+      console.log(`Favorited Tweet ${id}`);
     },
   },
   mounted() {
